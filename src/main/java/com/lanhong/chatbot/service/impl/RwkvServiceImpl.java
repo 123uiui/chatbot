@@ -65,4 +65,9 @@ public class RwkvServiceImpl implements IChat {
     public Flux<String> getChatCompletionsStream(ChatEntity chatEntity) {
         return null;
     }
+
+    @Override
+    public void getChatCompletionStreamWriteToKafka(ChatEntity chatEntity, String userId) {
+
+    }
 }

@@ -8,4 +8,6 @@ public interface IChat {
     Mono<String> getChatCompletions(ChatEntity chatEntity);
 
     Flux<String> getChatCompletionsStream(ChatEntity chatEntity);
+
+    public void getChatCompletionStreamWriteToKafka(ChatEntity chatEntity,String userId);
 }

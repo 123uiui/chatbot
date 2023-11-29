@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TextToSpeechController {
     private final Logger logger = LoggerFactory.getLogger(TextToSpeechController.class);
 
-    @Resource(name = "azure")
+    @Resource(name = "azureTts")
     private ITextToSpeech azureTextToSpeech;
 
     @PostMapping("/azure")

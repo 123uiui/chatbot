@@ -31,7 +31,7 @@ public class AudioBinaryWebSocketHandler implements WebSocketHandler {
 
     @Resource(name = "openai")
     private IChat chatGptService;
-    @Resource(name = "azure")
+    @Resource(name = "azureTts")
     private ITextToSpeech azureTextToSpeech;
 
     public AudioBinaryWebSocketHandler() {

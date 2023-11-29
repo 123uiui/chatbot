@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lanhong.chatbot.pojo.ChatEntity;
 import com.lanhong.chatbot.pojo.ResultEntity;
+import com.lanhong.chatbot.service.IChat;
 import com.lanhong.chatbot.service.ITextToSpeech;
 import com.lanhong.chatbot.service.impl.ChatGptServiceImpl;
 import jakarta.annotation.Resource;
@@ -30,10 +31,10 @@ public class AudioBinaryKafkaWebSocketHandler implements WebSocketHandler {
     private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
     private final Map<String, Sinks.Many<String>> userSinks = new ConcurrentHashMap<>();
 
-    @Resource
-    private ChatGptServiceImpl chatGptService;
+    @Resource(name = "openai")
+    private IChat chatGptService;
 
-    @Resource
+    @Resource(name = "azureTts")
     private ITextToSpeech azureTextToSpeech;
 
     @KafkaListener(topics = "t_sentence")

@@ -1,6 +1,13 @@
 spring:
+  codec:
+    max-in-memory-size: 10MB
   application:
     name: chat-bot
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 200MB
+
   kafka:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -27,7 +34,7 @@ rwkv:
   url: https://rwkv.ai-creator.net/chntuned/v1/chat/completions
 
 openai:
-  key: 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
+  key: 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
   deploymentOrModelId: gpt-4
   proxy :
     host: 127.0.0.1

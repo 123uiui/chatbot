@@ -1,6 +1,7 @@
 package com.lanhong.chatbot.controller;
 
 import com.lanhong.chatbot.pojo.ChatEntity;
+import com.lanhong.chatbot.service.IChat;
 import com.lanhong.chatbot.service.impl.ChatGptServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
 
-    @Resource
-    ChatGptServiceImpl chatGptService;
+    @Resource(name = "openai")
+    IChat chatGptService;
 
     @PostMapping("/test")
     public void getChatCompletions(@RequestBody ChatEntity chatEntity) {

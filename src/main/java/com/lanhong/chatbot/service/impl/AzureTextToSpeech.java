@@ -4,12 +4,15 @@ import com.lanhong.chatbot.service.ITextToSpeech;
 import com.microsoft.cognitiveservices.speech.*;
 import jakarta.annotation.Resource;
 import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 
-@Service("azure")
+@Service("azureTts")
 public class AzureTextToSpeech implements ITextToSpeech {
+    private final Logger logger = LoggerFactory.getLogger(AzureTextToSpeech.class);
 
     @Resource
     private GenericObjectPool<SpeechSynthesizer> synthesizerPool;
@@ -27,16 +30,16 @@ public class AzureTextToSpeech implements ITextToSpeech {
             synthesizer = synthesizerPool.borrowObject();
             SpeechSynthesisResult speechSynthesisResult = synthesizer.SpeakTextAsync(text).get();
             if (speechSynthesisResult.getReason() == ResultReason.SynthesizingAudioCompleted) {
-                System.out.println("Speech synthesized to speaker for text [" + text + "]");
+                logger.info("Speech synthesized to speaker for text [" + text + "]");
                 return speechSynthesisResult.getAudioData();
             } else if (speechSynthesisResult.getReason() == ResultReason.Canceled) {
                 SpeechSynthesisCancellationDetails cancellation = SpeechSynthesisCancellationDetails.fromResult(speechSynthesisResult);
-                System.out.println("CANCELED: Reason=" + cancellation.getReason());
+                logger.info("CANCELED: Reason=" + cancellation.getReason());
 
                 if (cancellation.getReason() == CancellationReason.Error) {
-                    System.out.println("CANCELED: ErrorCode=" + cancellation.getErrorCode());
-                    System.out.println("CANCELED: ErrorDetails=" + cancellation.getErrorDetails());
-                    System.out.println("CANCELED: Did you set the speech resource key and region values?");
+                    logger.info("CANCELED: ErrorCode=" + cancellation.getErrorCode());
+                    logger.info("CANCELED: ErrorDetails=" + cancellation.getErrorDetails());
+                    logger.info("CANCELED: Did you set the speech resource key and region values?");
                 }
             }
             return new byte[0];
