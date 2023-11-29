@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: chat-bot
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      group-id: test1
+      auto-commit-interval: 1000
+    bootstrap-servers: localhost:9092
+server:
+  port: 8080
+
+azure:
+  speech:
+    key: 7deb64bd83e649abae17e7ae01b84133
+    region: eastasia
+    language: zh-CN
+    voiceName: zh-cn-YunfengNeural
+
+
+
+rwkv:
+  url: https://rwkv.ai-creator.net/chntuned/v1/chat/completions
+
+openai:
+  key: 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
+  deploymentOrModelId: gpt-4
+  proxy :
+    host: 127.0.0.1
+    port: 7890
