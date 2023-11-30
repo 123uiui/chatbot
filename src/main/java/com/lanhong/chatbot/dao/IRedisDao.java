@@ -13,4 +13,5 @@ public interface IRedisDao {
     void insertString(String key, String value);
 
     List<MapRecord<String, String, String>> readLatestStringFromStream(String key, int count);
+
 }

@@ -39,7 +39,7 @@ rwkv:
   url: https://rwkv.ai-creator.net/chntuned/v1/chat/completions
 
 openai:
-  key: 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
+  key: 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
   deploymentOrModelId: gpt-4
   proxy :
     host: 127.0.0.1

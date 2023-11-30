@@ -34,12 +34,16 @@ public class WebSocketFluxConfig {
     @Resource
     private AudioBase64KafkaWebSocketHandler audioBase64KafkaWebSocketHandler;
 
+    @Resource
+    private TextRedisStreamWebSocketHandler textRedisStreamWebSocketHandler;
+
 
     @Bean
     public HandlerMapping handlerMapping() {
         Map<String, WebSocketHandler> map = new HashMap<>();
         map.put("/text", textWebSocketHandler);
         map.put("/text-stream", textStreamWebSocketHandler);
+        map.put("text-redis", textRedisStreamWebSocketHandler);
 //        map.put("/text-kafka", textKafkaWebSocketHandler);
         map.put("/audio-base64", audioBase64WebSocketHandler);
         map.put("/audio-binary", audioBinaryWebSocketHandler);
