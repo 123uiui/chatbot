@@ -1,0 +1,10 @@
+###
+POST http://localhost:8080/test
+Content-Type: application/json
+
+{
+  "gpt_type": "gpt4",
+  "model": "gpt-4",
+  "prompt": "盐城哪些农村",
+  "ext": ""
+}
