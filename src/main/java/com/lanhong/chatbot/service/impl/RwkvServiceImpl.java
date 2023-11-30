@@ -70,4 +70,9 @@ public class RwkvServiceImpl implements IChat {
     public void getChatCompletionStreamWriteToKafka(ChatEntity chatEntity, String userId) {
 
     }
+
+    @Override
+    public void getChatCompletionStreamWriteToRedis(ChatEntity chatEntity, String userId) {
+
+    }
 }

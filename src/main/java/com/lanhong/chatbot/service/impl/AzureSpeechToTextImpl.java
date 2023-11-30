@@ -1,24 +1,25 @@
 package com.lanhong.chatbot.service.impl;
 
+import com.lanhong.chatbot.pojo.AnyPullAudioInputStreamCallback;
 import com.lanhong.chatbot.service.ISpeechToText;
 import com.lanhong.chatbot.util.WavStreamUtils;
 import com.microsoft.cognitiveservices.speech.*;
 import com.microsoft.cognitiveservices.speech.audio.*;
 import jakarta.annotation.Resource;
-import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 @Service("azureStt")
-public class AzureSpeechToText implements ISpeechToText {
+public class AzureSpeechToTextImpl implements ISpeechToText {
 
-    private final Logger logger = LoggerFactory.getLogger(AzureSpeechToText.class);
+    private final Logger logger = LoggerFactory.getLogger(AzureSpeechToTextImpl.class);
 
     @Resource
     private SpeechConfig speechConfig;
@@ -29,14 +30,18 @@ public class AzureSpeechToText implements ISpeechToText {
     @Override
     public String getText(byte[] bytes) {
         InputStream inputStream = new ByteArrayInputStream(bytes);
-        AudioStreamFormat audioStreamFormat = AudioStreamFormat.getDefaultInputFormat();
 
-        WavStreamUtils wavStream = new WavStreamUtils(inputStream);
-        PullAudioInputStream pullStream = PullAudioInputStream.createPullStream(wavStream, audioStreamFormat);
+        AudioStreamFormat audioStreamFormat = AudioStreamFormat.getDefaultInputFormat();
+        // WavStreamUtils wavStream = new WavStreamUtils(inputStream);
+        AnyPullAudioInputStreamCallback pullAudioInputStream = new AnyPullAudioInputStreamCallback(inputStream);
+        PullAudioInputStream pullStream = PullAudioInputStream.createPullStream(pullAudioInputStream, AudioStreamFormat.getCompressedFormat(AudioStreamContainerFormat.ANY));
+
         AudioConfig audioInput = AudioConfig.fromStreamInput(pullStream);
 
+        String[] languages = {"en-US", "zh-CN"}; // 你想要支持的语言列表
+        AutoDetectSourceLanguageConfig autoDetectSourceLanguageConfig = AutoDetectSourceLanguageConfig.fromLanguages(Arrays.asList(languages));
 
-        SpeechRecognizer speechRecognizer = new SpeechRecognizer(speechConfig, audioInput);
+        SpeechRecognizer speechRecognizer = new SpeechRecognizer(speechConfig,autoDetectSourceLanguageConfig, audioInput);
         //开始识别
         Future<SpeechRecognitionResult> task = speechRecognizer.recognizeOnceAsync();
         // 获取识别的结果

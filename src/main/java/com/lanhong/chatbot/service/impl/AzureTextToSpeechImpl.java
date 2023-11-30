@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.Base64;
 
 @Service("azureTts")
-public class AzureTextToSpeech implements ITextToSpeech {
-    private final Logger logger = LoggerFactory.getLogger(AzureTextToSpeech.class);
+public class AzureTextToSpeechImpl implements ITextToSpeech {
+    private final Logger logger = LoggerFactory.getLogger(AzureTextToSpeechImpl.class);
 
     @Resource
     private GenericObjectPool<SpeechSynthesizer> synthesizerPool;

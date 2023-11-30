@@ -1,6 +1,7 @@
 package com.lanhong.chatbot.service;
 
 import com.lanhong.chatbot.pojo.ChatEntity;
+import org.springframework.scheduling.annotation.Async;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -9,5 +10,7 @@ public interface IChat {
 
     Flux<String> getChatCompletionsStream(ChatEntity chatEntity);
 
-    public void getChatCompletionStreamWriteToKafka(ChatEntity chatEntity,String userId);
+    void getChatCompletionStreamWriteToKafka(ChatEntity chatEntity,String userId);
+
+    void getChatCompletionStreamWriteToRedis(ChatEntity chatEntity,String userId);
 }

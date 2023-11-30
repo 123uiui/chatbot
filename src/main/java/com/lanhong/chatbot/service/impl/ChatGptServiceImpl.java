@@ -3,6 +3,7 @@ package com.lanhong.chatbot.service.impl;
 import com.azure.ai.openai.OpenAIAsyncClient;
 import com.azure.ai.openai.OpenAIClient;
 import com.azure.ai.openai.models.*;
+import com.lanhong.chatbot.dao.IRedisDao;
 import com.lanhong.chatbot.dao.IWordDao;
 import com.lanhong.chatbot.pojo.ChatEntity;
 import com.lanhong.chatbot.service.IChat;
@@ -24,9 +25,12 @@ public class ChatGptServiceImpl implements IChat {
 
     private final Logger logger = LoggerFactory.getLogger(ChatGptServiceImpl.class);
     @Resource
-    OpenAIClient openAIClient;
+    private OpenAIClient openAIClient;
     @Resource
-    OpenAIAsyncClient openAIAsyncClient;
+    private OpenAIAsyncClient openAIAsyncClient;
+
+    @Resource
+    private IRedisDao redisDao;
 
     @Resource
     IWordDao wordDao;
@@ -72,11 +76,18 @@ public class ChatGptServiceImpl implements IChat {
     }
 
     @Async
-    public void getChatCompletionStreamWriteToKafka(ChatEntity chatEntity,String userId) {
+    public void getChatCompletionStreamWriteToKafka(ChatEntity chatEntity, String userId) {
         Flux<String> completionsStream = getChatCompletionsStream(chatEntity);
-        completionsStream.subscribe(element->{
-            wordDao.addWord(userId,element);
+        completionsStream.subscribe(element -> {
+            wordDao.addWord(userId, element);
         });
+    }
 
+    @Async
+    public void getChatCompletionStreamWriteToRedis(ChatEntity chatEntity, String userId) {
+        Flux<String> completionsStream = getChatCompletionsStream(chatEntity);
+        completionsStream.subscribe(element -> {
+            redisDao.addStringToSteam("word_" + userId, element);
+        });
     }
 }

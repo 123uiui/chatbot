@@ -34,5 +34,4 @@ public class ChatController {
         return chatGptService.getChatCompletionsStream(chatEntity);
     }
 
-
 }

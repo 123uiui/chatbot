@@ -1,0 +1,1 @@
+1. 语音识别需要安装GStreamer（https://learn.microsoft.com/zh-cn/azure/ai-services/speech-service/how-to-use-codec-compressed-audio-input-streams?tabs=windows%2Cdebian%2Cjava-windows%2Cterminal&pivots=programming-language-java）

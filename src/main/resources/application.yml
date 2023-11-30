@@ -7,6 +7,10 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 200MB
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
   kafka:
     producer:
@@ -18,6 +22,7 @@ spring:
       group-id: test1
       auto-commit-interval: 1000
     bootstrap-servers: localhost:9092
+
 server:
   port: 8080
 
@@ -34,7 +39,7 @@ rwkv:
   url: https://rwkv.ai-creator.net/chntuned/v1/chat/completions
 
 openai:
-  key: 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
+  key: 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
   deploymentOrModelId: gpt-4
   proxy :
     host: 127.0.0.1
